@@ -43,6 +43,10 @@ public class CoreDataDefaultStorage: Storage {
         return _context
     }
     
+    public func resetInMemoryContext() {
+        (self.memoryContext as! NSManagedObjectContext).reset()
+    }
+    
     public func operation<T>(_ operation: @escaping (_ context: Context, _ save: @escaping () -> Void) throws -> T) throws -> T {
         let context: NSManagedObjectContext = self.saveContext as! NSManagedObjectContext
         var _error: Error!
@@ -102,6 +106,14 @@ public class CoreDataDefaultStorage: Storage {
                     completion(_error)
                 }
             })
+        }
+    }
+    
+    public func inMemoryBackgroundOperation(_ operation: @escaping (_ context: Context) -> Void, completion: @escaping () -> Void) {
+        let context: NSManagedObjectContext = self.memoryContext as! NSManagedObjectContext
+        context.perform {
+            operation(context)
+            completion()
         }
     }
     

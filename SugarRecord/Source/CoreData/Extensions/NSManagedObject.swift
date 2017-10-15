@@ -27,3 +27,19 @@ extension NSManagedObject {
     }
 
 }
+
+//MARK: - NSManagedObject Extension (getting from another context)
+
+public extension NSManagedObject {
+    
+    private func _inContext<T>(_ context: Context) throws -> T {
+        let managedContext = context as! NSManagedObjectContext
+        let result = try managedContext.existingObject(with: self.objectID)
+        return result as! T
+    }
+    
+    func inContext(_ context: Context) throws -> Self {
+        return try _inContext(context)
+    }
+    
+}
