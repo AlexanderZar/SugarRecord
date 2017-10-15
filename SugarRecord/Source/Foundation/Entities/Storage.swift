@@ -27,4 +27,8 @@ public extension Storage {
         return try self.mainContext.fetch(request)
     }
     
+    func count<T>(for request: FetchRequest<T>) throws -> Int {
+        return try self.mainContext.count(for: request)
+    }
+    
 }
