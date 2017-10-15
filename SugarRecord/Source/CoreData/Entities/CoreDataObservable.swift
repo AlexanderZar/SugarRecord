@@ -1,8 +1,11 @@
 import Foundation
 import CoreData
+#if os(iOS) || os(tvOS) || os(watchOS)
+import UIKit
+#endif
 
 @available(OSX 10.12, *)
-public class CoreDataObservable<T: NSManagedObject>: RequestObservable<T>, NSFetchedResultsControllerDelegate where T:Equatable {
+public class CoreDataObservable<T: NSManagedObject>: RequestObservable<T>, NSFetchedResultsControllerDelegate {
 
     // MARK: - Attributes
 
